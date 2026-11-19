@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Update</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Courier New", monospace;
+    }
+
+    /* 1. HACKER TERMINAL SCREEN */
+    #terminal-screen {
+      background-color: #000000;
+      color: #00ff41;
+      height: 100vh;
+      padding: 25px;
+      font-size: 16px;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 18px;
+      background: #00ff41;
+      animation: blink 0.7s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* 2. WINDOWS BLUE SCREEN (BSOD) */
+    #bsod-screen {
+      display: none;
+      background-color: #0078d7;
+      color: #ffffff;
+      height: 100vh;
+      padding: 10% 12%;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .sad-face {
+      font-size: 90px;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .bsod-text {
+      font-size: 22px;
+      line-height: 1.5;
+      max-width: 700px;
+      margin-bottom: 25px;
+    }
+
+    .bsod-percent {
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+
+    .bsod-small {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* 3. PRANK REVEAL SCREEN */
+    #prank-screen {
+      display: none;
+      background-color: #111827;
+      color: #ffffff;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    #prank-screen h1 {
+      font-size: 42px;
+      color: #34d399;
+      margin-bottom: 12px;
+    }
+
+    #prank-screen p {
+      font-size: 18px;
+      color: #d1d5db;
+      max-width: 450px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Hacker Terminal -->
+  <div id="terminal-screen">
+    <div id="terminal-output"></div>
+    <div>&gt; <span class="cursor"></span></div>
+  </div>
+
+  <!-- Screen 2: Windows Blue Screen -->
+  <div id="bsod-screen">
+    <div class="sad-face">:(</div>
+    <div class="bsod-text">
+      Your device ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.
+    </div>
+    <div class="bsod-percent"><span id="bsod-progress">0</span>% complete</div>
+    <div class="bsod-small">
+      Stop code: CRITICAL_PRANK_DETECTED<br>
+      What failed: sense_of_humor.sys
+    </div>
+  </div>
+
+  <!-- Screen 3: Prank Reveal -->
+  <div id="prank-screen">
+    <h1>ඔයාව දැන් හැක් වේලා තියෙන්නෙ!</h1>
+    <p>ඔයාගේ සියලු තොරතුරු අපගේ අතෙ පවති...!</p>
+  </div>
+
+  <script>
+    const terminalLines = [
+      "[*] Initializing remote connection...",
+      "[*] Target device located...",
+      "[*] Bypassing security protocols... SUCCESS",
+      "[*] Accessing gallery & meme folder...",
+      "[!] WARNING: System overload detected!",
+      "[!] CRITICAL ERROR: Crashing OS in 3... 2... 1..."
+    ];
+
+    const output = document.getElementById("terminal-output");
+    const terminalScreen = document.getElementById("terminal-screen");
+    const bsodScreen = document.getElementById("bsod-screen");
+    const prankScreen = document.getElementById("prank-screen");
+    const bsodProgress = document.getElementById("bsod-progress");
+
+    let lineIndex = 0;
+
+    // Step 1: Run Hacker Terminal lines
+    function runTerminal() {
+      if (lineIndex < terminalLines.length) {
+        const p = document.createElement("div");
+        p.textContent = terminalLines[lineIndex];
+        output.appendChild(p);
+        lineIndex++;
+        setTimeout(runTerminal, 750);
+      } else {
+        setTimeout(startBSOD, 800);
+      }
+    }
+
+    // Step 2: Switch to Blue Screen
+    function startBSOD() {
+      terminalScreen.style.display = "none";
+      bsodScreen.style.display = "block";
+
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent += Math.floor(Math.random() * 20) + 10;
+        if (percent >= 100) {
+          percent = 100;
+          bsodProgress.textContent = percent;
+          clearInterval(interval);
+          setTimeout(revealPrank, 1200);
+        } else {
+          bsodProgress.textContent = percent;
+        }
+      }, 600);
+    }
+
+    // Step 3: Reveal the Prank
+    function revealPrank() {
+      bsodScreen.style.display = "none";
+      prankScreen.style.display = "flex";
+    }
+
+    // Start on load
+    window.onload = runTerminal;
+  </script>
+
+</body>
+</html>
